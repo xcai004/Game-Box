@@ -3,8 +3,11 @@ import { View, Text } from "react-native";
 
 const Game24 = () => {
   return (
-    <View>
-      <Text>Game 24</Text>
+    <View style={{ flex: 1 }}>
+      <View>
+        <Text>Game 24</Text>
+      </View>
+      <View></View>
     </View>
   );
 };

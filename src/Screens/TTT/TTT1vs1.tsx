@@ -80,31 +80,24 @@ export default class TTT1vs1 extends Component<Props, State> {
     }
   };
 
-  playOpponentTile(arr) {
-    let row = Math.floor(Math.random() * 3);
-    let col = Math.floor(Math.random() * 3);
+  // playOpponentTile(arr) {
+  //   let row = Math.floor(Math.random() * 3);
+  //   let col = Math.floor(Math.random() * 3);
 
-    while (arr[row][col] != 0) {
-      row = Math.floor(Math.random() * 3);
-      col = Math.floor(Math.random() * 3);
-    }
+  //   while (arr[row][col] != 0) {
+  //     row = Math.floor(Math.random() * 3);
+  //     col = Math.floor(Math.random() * 3);
+  //   }
 
-    arr[row][col] = -1;
+  //   arr[row][col] = -1;
 
-    this.setState(
-      { gameState: arr, openTiles: this.state.openTiles - 1 },
-      () => {
-        var winner = this.getWinner();
-        if (winner == 1) {
-          Alert.alert("Player 1 is the winner!");
-          this.initializeGame();
-        } else if (winner == -1) {
-          Alert.alert("Player 2 is the winner!");
-          this.initializeGame();
-        }
-      }
-    );
-  }
+  //   this.setState(
+  //     { gameState: arr, openTiles: this.state.openTiles - 1 },
+  //     () => {
+
+  //     }
+  //   );
+  // }
 
   onTilePress = (row, col) => {
     var value = this.state.gameState[row][col];
@@ -113,41 +106,23 @@ export default class TTT1vs1 extends Component<Props, State> {
     }
 
     var currentPlayer = this.state.currentPlayer;
+
     var arr = this.state.gameState.slice();
     // set the correct tile
     arr[row][col] = currentPlayer;
+    this.setState({ gameState: arr });
     // set the next player
-    // var nextPlayer = currentPlayer * -1;
-    // set ai tile
-    this.setState(
-      { gameState: arr, openTiles: this.state.openTiles - 1 },
-      () => {
-        this.checkWinner();
-      }
-    );
-  };
-
-  checkWinner() {
-    // check for winners
-
+    var nextPlayer = currentPlayer * -1;
+    this.setState({ currentPlayer: nextPlayer });
     var winner = this.getWinner();
     if (winner == 1) {
       Alert.alert("Player 1 is the winner!");
-      //this.initializeGame();
+      this.initializeGame();
     } else if (winner == -1) {
       Alert.alert("Player 2 is the winner!");
-      //this.initializeGame();
-    } else {
-      // no winner
-      if (this.state.openTiles > 0) {
-        // the game shall go on
-        this.playOpponentTile(this.state.gameState);
-      } else {
-        // the game is over and its a drawe
-        Alert.alert("It's a draw!");
-      }
+      this.initializeGame();
     }
-  }
+  };
 
   onNewGamePress = () => {
     this.initializeGame();
