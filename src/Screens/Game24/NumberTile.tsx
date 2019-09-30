@@ -20,7 +20,13 @@ const NumberTile = ({number, onPress, selected, index}: NumberTileProps) => {
       disabled={isSelected}
       style={[styles.box, {borderWidth: isSelected ? 7 : 2.5}]}
       onPress={onPress}>
-      <Text style={styles.number}>{number}</Text>
+      <Text
+        style={[
+          styles.number,
+          {color: isSelected ? '#ee7621' : Colors.primary_color},
+        ]}>
+        {number}
+      </Text>
     </TouchableOpacity>
   );
 };
