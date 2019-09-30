@@ -87,6 +87,9 @@ const GameLoop = (entities: any, {touches, dispatch, events}: any) => {
         // GENERATE NEW FOOD POSITION
         food.position[0] = randomBetween(0, Constants.GRID_SIZE - 1);
         food.position[1] = randomBetween(0, Constants.GRID_SIZE - 1);
+        dispatch({
+          type: 'food',
+        });
       }
     }
   }

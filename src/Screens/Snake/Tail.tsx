@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import Constants from '../../Constants';
+import Colors from '../../Constants/Colors';
 
 const Tail = (props: any) => {
   let tailList = props.elements.map((element, index) => {
@@ -10,7 +11,9 @@ const Tail = (props: any) => {
         style={{
           width: props.size,
           height: props.size,
-          backgroundColor: 'grey',
+          backgroundColor: Colors.secondary_color,
+          borderWidth: 0.7,
+          borderColor: Colors.primary_color,
           position: 'absolute',
           left: element[0] * props.size,
           top: element[1] * props.size,

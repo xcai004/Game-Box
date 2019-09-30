@@ -1,17 +1,26 @@
 import React, {Component, useRef, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import {GameEngine} from 'react-native-game-engine';
-import Constants from '../../Constants';
+import Constants, {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Constants';
 import Head from './Head';
 import GameLoop from './GameLoop';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Food from './Food';
 import Tail from './Tail';
 import {randomBetween} from '../../Constants/functions';
+import Controls from './Controls';
+import Colors from '../../Constants/Colors';
+import SnakeHeader from './SnakeHeader';
 
 const GameSnake = () => {
   const [running, setRunning] = useState(true);
-
+  const [foodScore, setFoodScore] = useState(0);
   const boardSize = Constants.CELL_SIZE * Constants.GRID_SIZE;
   const engine = useRef<GameEngine>(null);
 
@@ -26,12 +35,17 @@ const GameSnake = () => {
       Alert.alert('Game Over');
       setRunning(false);
     }
+
+    if (e.type === 'food') {
+      setFoodScore(foodScore + 1);
+    }
   }
 
   function reset() {
     if (engine.current) {
       engine.current.swap(getInitialEntities());
       setRunning(true);
+      setFoodScore(0);
     }
   }
 
@@ -59,58 +73,51 @@ const GameSnake = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../../Images/snake_background3.jpeg')}
+      blurRadius={1.2}
+      style={styles.container}>
+      <SnakeHeader foodScore={foodScore} />
       <GameEngine
         ref={engine}
-        style={{
-          width: boardSize,
-          height: boardSize,
-          flex: null,
-          backgroundColor: '#fff',
-        }}
+        style={[
+          styles.game,
+          {
+            width: boardSize,
+            height: boardSize,
+          },
+        ]}
         entities={getInitialEntities()}
         onEvent={onEvent}
         systems={[GameLoop]}
         running={running}
       />
-      <TouchableOpacity
-        style={{
-          height: 50,
-          width: 100,
-          backgroundColor: running ? 'grey' : 'red',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        disabled={running}
-        onPress={() => reset()}>
-        <Text>New Game</Text>
-      </TouchableOpacity>
-      <View style={styles.controls}>
-        <View style={styles.controlRow}>
-          <TouchableOpacity onPress={() => move('up')} style={styles.control} />
+      <View style={styles.centerRow}>
+        <View style={styles.centerCol}>
+          <Controls move={move} />
         </View>
-        <View style={styles.controlRow}>
+        <View style={styles.centerCol}>
           <TouchableOpacity
-            onPress={() => move('left')}
-            style={styles.control}
-          />
-          <TouchableOpacity
-            onPress={() => {}}
-            style={[styles.control, {backgroundColor: null}]}
-          />
-          <TouchableOpacity
-            onPress={() => move('right')}
-            style={styles.control}
-          />
-        </View>
-        <View style={styles.controlRow}>
-          <TouchableOpacity
-            onPress={() => move('down')}
-            style={styles.control}
-          />
+            style={[
+              styles.resetButton,
+              {
+                backgroundColor: running ? 'grey' : Colors.primary_color,
+                borderColor: running ? 'white' : Colors.secondary_color,
+              },
+            ]}
+            disabled={running}
+            onPress={() => reset()}>
+            <Text
+              style={[
+                styles.resetText,
+                {color: running ? 'white' : Colors.secondary_color},
+              ]}>
+              New Game
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -118,30 +125,43 @@ GameSnake.navigationOptions = {
   title: 'Game Sname',
 };
 
-export default GameSnake;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    // backgroundColor: Colors.primary_color,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  controls: {
-    width: 300,
-    height: 300,
-    flexDirection: 'column',
+
+  resetButton: {
+    height: 50,
+    width: '90%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: Colors.secondary_color,
   },
-  controlRow: {
-    width: 300,
-    height: 100,
+  resetText: {
+    color: Colors.secondary_color,
+    fontFamily: 'Chalkboard SE',
+  },
+  centerCol: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  centerRow: {
+    flex: 1,
+    padding: 15,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  control: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'blue',
+  game: {
+    flex: null,
+    backgroundColor: Colors.primary_color + '75',
+    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
+
+export default GameSnake;

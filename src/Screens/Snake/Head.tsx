@@ -1,5 +1,6 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import {View} from 'react-native';
+import Colors from '../../Constants/Colors';
 
 const Head = (props: any) => {
   const x = props.position[0];
@@ -10,10 +11,12 @@ const Head = (props: any) => {
       style={{
         width: props.size,
         height: props.size,
-        backgroundColor: "red",
-        position: "absolute",
+        backgroundColor: Colors.secondary_color,
+        borderColor: Colors.primary_color,
+        borderWidth: 0.7,
+        position: 'absolute',
         left: x * props.size,
-        top: y * props.size
+        top: y * props.size,
       }}
     />
   );
