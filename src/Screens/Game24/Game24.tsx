@@ -8,10 +8,14 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  ImageBackground,
+  Button,
 } from 'react-native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Constants';
 import NumberTile from './NumberTile';
 import ActionTile from './ActionTile';
+import Colors from '../../Constants/Colors';
+import Modal from 'react-native-modal';
 
 const puzzles = require('./puzzles.json');
 
@@ -155,6 +159,7 @@ const Game24 = () => {
       numbers: state.currentProblem,
       puzzleSolutions: state.puzzleSolutions,
       currentProblem: state.currentProblem,
+      numberSolved: state.numberSolved,
     });
   }
 
@@ -188,89 +193,121 @@ const Game24 = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        <View style={styles.boxRow}>
-          <NumberTile
-            index={0}
-            number={numbers[0]}
-            selected={selected}
-            onPress={() => onNumberPress(0)}
-          />
-          <NumberTile
-            index={1}
-            number={numbers[1]}
-            selected={selected}
-            onPress={() => onNumberPress(1)}
-          />
+      <ImageBackground
+        source={require('../../Images/game_24background.png')}
+        style={{flex: 1}}>
+        <View style={{flex: 1}}>
+          <View style={styles.boxRow}>
+            <NumberTile
+              index={0}
+              number={numbers[0]}
+              selected={selected}
+              onPress={() => onNumberPress(0)}
+            />
+            <NumberTile
+              index={1}
+              number={numbers[1]}
+              selected={selected}
+              onPress={() => onNumberPress(1)}
+            />
+          </View>
+          <View style={styles.boxRow}>
+            <NumberTile
+              index={2}
+              number={numbers[2]}
+              selected={selected}
+              onPress={() => onNumberPress(2)}
+            />
+            <NumberTile
+              index={3}
+              number={numbers[3]}
+              selected={selected}
+              onPress={() => onNumberPress(3)}
+            />
+          </View>
         </View>
-        <View style={styles.boxRow}>
-          <NumberTile
-            index={2}
-            number={numbers[2]}
-            selected={selected}
-            onPress={() => onNumberPress(2)}
-          />
-          <NumberTile
-            index={3}
-            number={numbers[3]}
-            selected={selected}
-            onPress={() => onNumberPress(3)}
-          />
+        <View style={{flex: 1, marginTop: 5}}>
+          <View style={styles.buttonsContainer}>
+            <ActionTile
+              onPress={() => onActionPress('add')}
+              icon={{name: 'plus', type: 'FontAwesome5'}}
+              action="add"
+              selected={action}
+              disabled={selected == -1}
+            />
+            <ActionTile
+              onPress={() => onActionPress('subtract')}
+              icon={{name: 'minus', type: 'FontAwesome5'}}
+              action="subtract"
+              selected={action}
+              disabled={selected == -1}
+            />
+            <ActionTile
+              onPress={() => onActionPress('multiply')}
+              icon={{name: 'times', type: 'FontAwesome5'}}
+              action={'multiply'}
+              selected={action}
+              disabled={selected == -1}
+            />
+            <ActionTile
+              onPress={() => onActionPress('divide')}
+              icon={{name: 'divide', type: 'FontAwesome5'}}
+              action="divide"
+              selected={action}
+              disabled={selected == -1}
+            />
+          </View>
+          <View
+            style={{
+              flex: 2,
+              flexDirection: 'column',
+              // justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View style={styles.score}>
+              <Text style={styles.solvedText}>Solved: {numberSolved}</Text>
+            </View>
+
+            <TouchableOpacity onPress={onReset} style={styles.resetButton}>
+              <Text style={styles.text}>Reset</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setState({showSolutions: !showSolutions})}
+              style={styles.showSolutionsButton}>
+              <Text style={styles.text}>
+                {showSolutions ? 'Hide Solutions' : 'Show Solutions'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={{flex: 1, marginTop: 5}}>
-        <View style={styles.buttonsContainer}>
-          <ActionTile
-            onPress={() => onActionPress('add')}
-            source={require('../../Images/add.png')}
-            action="add"
-            selected={action}
-            disabled={selected == -1}
-          />
-          <ActionTile
-            onPress={() => onActionPress('subtract')}
-            source={require('../../Images/minus.png')}
-            action="subtract"
-            selected={action}
-            disabled={selected == -1}
-          />
-          <ActionTile
-            onPress={() => onActionPress('multiply')}
-            source={require('../../Images/times.png')}
-            action={'multiply'}
-            selected={action}
-            disabled={selected == -1}
-          />
-          <ActionTile
-            onPress={() => onActionPress('divide')}
-            source={require('../../Images/division.png')}
-            action="divide"
-            selected={action}
-            disabled={selected == -1}
-          />
-        </View>
+      </ImageBackground>
+      <Modal
+        isVisible={showSolutions}
+        animationIn={'fadeIn'}
+        animationOut={'fadeOut'}
+        backdropTransitionOutTiming={0}>
         <View
           style={{
-            flex: 2,
-            flexDirection: 'column',
+            backgroundColor: 'white',
+            padding: 22,
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: 4,
+            borderColor: 'rgba(0, 0, 0, 0.1)',
           }}>
-          <Text>Solved: {numberSolved}</Text>
-          <TouchableOpacity onPress={onReset} style={styles.resetButton}>
-            <Text>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          {puzzleSolutions.map((solution, index) => {
+            return (
+              <Text key={index} style={styles.solutionText}>
+                {solution}
+              </Text>
+            );
+          })}
+          <Button
             onPress={() => setState({showSolutions: !showSolutions})}
-            style={styles.resetButton}>
-            <Text>{showSolutions ? 'Hide Solutions' : 'Show Solutions'}</Text>
-          </TouchableOpacity>
-          {showSolutions &&
-            puzzleSolutions.map((solution, index) => {
-              return <Text key={index}>{solution}</Text>;
-            })}
+            title="Close"
+          />
         </View>
-      </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -282,10 +319,50 @@ const styles = StyleSheet.create({
   },
   resetButton: {
     height: '20%',
-    width: '50%',
-    backgroundColor: 'green',
-    alignItems: 'center',
+    width: '85%',
+    backgroundColor: Colors.primary_color,
     justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderColor: Colors.secondary_color,
+    borderWidth: 4,
+    marginTop: 10,
+  },
+  score: {
+    height: '20%',
+    width: '85%',
+    backgroundColor: Colors.primary_color,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderColor: Colors.secondary_color,
+    borderWidth: 4,
+    marginTop: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontFamily: 'Chalkboard SE',
+    color: Colors.secondary_color,
+  },
+  solutionText: {
+    fontSize: 20,
+    // fontFamily: 'Chalkboard SE',
+    color: Colors.primary_color,
+  },
+  solvedText: {
+    fontSize: 20,
+    fontFamily: 'Chalkboard SE',
+    color: Colors.secondary_color,
+  },
+  showSolutionsButton: {
+    height: '20%',
+    width: '85%',
+    backgroundColor: Colors.primary_color,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderColor: Colors.secondary_color,
+    borderWidth: 4,
     marginTop: 10,
   },
   buttonsContainer: {
