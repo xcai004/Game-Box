@@ -20,6 +20,7 @@ import Colors from '../../Constants/Colors';
 import SnakeHeader from './SnakeHeader';
 import {SNAKE_GAME_BG} from '../../Constants/Images';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 const options = {
   enableVibrateFallback: true,
@@ -81,26 +82,84 @@ const GameSnake = () => {
     };
   }
 
+  function onSwipeUp(gestureState) {
+    // this.setState({ myText: 'You swiped up!' });
+    move('up');
+  }
+
+  function onSwipeDown(gestureState) {
+    // this.setState({ myText: 'You swiped down!' });
+    move('down');
+  }
+
+  function onSwipeLeft(gestureState) {
+    // this.setState({ myText: 'You swiped left!' });
+    move('left');
+  }
+
+  function onSwipeRight(gestureState) {
+    // this.setState({ myText: 'You swiped right!' });
+    move('right');
+  }
+
+  // function onSwipe(gestureName, gestureState) {
+  //   const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
+  //   this.setState({ gestureName: gestureName });
+  //   switch (gestureName) {
+  //     case SWIPE_UP:
+  //       this.setState({ backgroundColor: 'red' });
+  //       break;
+  //     case SWIPE_DOWN:
+  //       this.setState({ backgroundColor: 'green' });
+  //       break;
+  //     case SWIPE_LEFT:
+  //       this.setState({ backgroundColor: 'blue' });
+  //       break;
+  //     case SWIPE_RIGHT:
+  //       this.setState({ backgroundColor: 'yellow' });
+  //       break;
+  //   }
+  // }
+
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80,
+  };
+
   return (
     <ImageBackground
       source={SNAKE_GAME_BG}
       blurRadius={1.2}
       style={styles.container}>
       <SnakeHeader foodScore={foodScore} />
-      <GameEngine
-        ref={engine}
-        style={[
-          styles.game,
+      <GestureRecognizer
+        // onSwipe={onSwipe}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
+        onSwipeLeft={onSwipeLeft}
+        onSwipeRight={onSwipeRight}
+        config={config}
+        style={
           {
-            width: boardSize,
-            height: boardSize,
-          },
-        ]}
-        entities={getInitialEntities()}
-        onEvent={onEvent}
-        systems={[GameLoop]}
-        running={running}
-      />
+            // flex: 1,
+            // backgroundColor: this.state.backgroundColor
+          }
+        }>
+        <GameEngine
+          ref={engine}
+          style={[
+            styles.game,
+            {
+              width: boardSize,
+              height: boardSize,
+            },
+          ]}
+          entities={getInitialEntities()}
+          onEvent={onEvent}
+          systems={[GameLoop]}
+          running={running}
+        />
+      </GestureRecognizer>
       <View style={styles.centerRow}>
         <View style={styles.centerCol}>
           <Controls move={move} />
