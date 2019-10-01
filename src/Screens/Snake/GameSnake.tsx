@@ -6,6 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   ImageBackground,
+  Vibration,
 } from 'react-native';
 import {GameEngine} from 'react-native-game-engine';
 import Constants, {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Constants';
@@ -18,6 +19,12 @@ import Controls from './Controls';
 import Colors from '../../Constants/Colors';
 import SnakeHeader from './SnakeHeader';
 import {SNAKE_GAME_BG} from '../../Constants/Images';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 const GameSnake = () => {
   const [running, setRunning] = useState(true);
@@ -26,6 +33,7 @@ const GameSnake = () => {
   const engine = useRef<GameEngine>(null);
 
   function move(type: string) {
+    ReactNativeHapticFeedback.trigger('impactLight', options);
     if (engine.current) {
       engine.current.dispatch({type: type});
     }
