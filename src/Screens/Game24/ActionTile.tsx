@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary_color,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
   },
   icon: {
-    fontSize: 35,
+    fontSize: 28,
     // // flex: 1,
     // // marginHorizontal: 5,
     // height: '100%',
