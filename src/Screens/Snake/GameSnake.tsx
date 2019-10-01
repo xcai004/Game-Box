@@ -17,6 +17,7 @@ import {randomBetween} from '../../Constants/functions';
 import Controls from './Controls';
 import Colors from '../../Constants/Colors';
 import SnakeHeader from './SnakeHeader';
+import {SNAKE_GAME_BG} from '../../Constants/Images';
 
 const GameSnake = () => {
   const [running, setRunning] = useState(true);
@@ -74,7 +75,7 @@ const GameSnake = () => {
 
   return (
     <ImageBackground
-      source={require('../../Images/snake_background3.jpeg')}
+      source={SNAKE_GAME_BG}
       blurRadius={1.2}
       style={styles.container}>
       <SnakeHeader foodScore={foodScore} />

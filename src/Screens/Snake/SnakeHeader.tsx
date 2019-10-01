@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import Colors from '../../Constants/Colors';
+import {APPLE_IMG} from '../../Constants/Images';
 
 const SnakeHeader = ({foodScore}) => {
   return (
@@ -13,10 +14,7 @@ const SnakeHeader = ({foodScore}) => {
       }}>
       <Text style={styles.title}>Snake</Text>
       <View style={styles.scoreContainer}>
-        <Image
-          source={require('./apple.png')}
-          style={{height: 50, width: 50}}
-        />
+        <Image source={APPLE_IMG} style={{height: 50, width: 50}} />
         <Text style={styles.foodScore}>{foodScore}</Text>
       </View>
     </View>

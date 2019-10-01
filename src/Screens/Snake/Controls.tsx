@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Constants, {SCREEN_HEIGHT} from '../../Constants';
+import {UP_IMG, LEFT_IMG, RIGHT_IMG, DOWN_IMG} from '../../Constants/Images';
 
 interface ControlsProps {
   move: any;
@@ -18,12 +19,12 @@ const Controls = ({move}: ControlsProps) => {
     <View style={styles.controls}>
       <View style={styles.controlRow}>
         <TouchableOpacity onPress={() => move('up')}>
-          <Image source={require('./flatDark25.png')} style={styles.control} />
+          <Image source={UP_IMG} style={styles.control} />
         </TouchableOpacity>
       </View>
       <View style={styles.controlRow}>
         <TouchableOpacity onPress={() => move('left')}>
-          <Image source={require('./flatDark23.png')} style={styles.control} />
+          <Image source={LEFT_IMG} style={styles.control} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {}}
@@ -31,12 +32,12 @@ const Controls = ({move}: ControlsProps) => {
           style={styles.centerSpace}
         />
         <TouchableOpacity onPress={() => move('right')}>
-          <Image source={require('./flatDark24.png')} style={styles.control} />
+          <Image source={RIGHT_IMG} style={styles.control} />
         </TouchableOpacity>
       </View>
       <View style={styles.controlRow}>
         <TouchableOpacity onPress={() => move('down')}>
-          <Image source={require('./flatDark26.png')} style={styles.control} />
+          <Image source={DOWN_IMG} style={styles.control} />
         </TouchableOpacity>
       </View>
     </View>

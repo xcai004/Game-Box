@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Image} from 'react-native';
+import {APPLE_IMG} from '../../Constants/Images';
 
 const Food = (props: any) => {
   const x = props.position[0];
@@ -7,7 +8,7 @@ const Food = (props: any) => {
 
   return (
     <Image
-      source={require('./apple.png')}
+      source={APPLE_IMG}
       style={{
         width: props.size,
         height: props.size,

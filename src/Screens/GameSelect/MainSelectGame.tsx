@@ -1,15 +1,15 @@
-import React, { Component, useState } from "react";
+import React, {Component, useState} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  ImageBackground
-} from "react-native";
-import Styles from "../../Constants/Styles";
-import { TTT_LOGO } from "../../Constants/Images";
-import { Select_BGP } from "../../Constants/Images";
-import ChooseGameButton from "./ChooseGameButton";
+  ImageBackground,
+} from 'react-native';
+import Styles from '../../Constants/Styles';
+import {TTT_LOGO, GAME_24, SNAKE_LOGO, MORE_LOGO} from '../../Constants/Images';
+import {Select_BGP} from '../../Constants/Images';
+import ChooseGameButton from './ChooseGameButton';
 
 // OLD WAY
 
@@ -65,7 +65,7 @@ interface Props {
 
 export default class MainSelectGame extends Component<Props> {
   static navigationOptions = {
-    title: "Select a Game"
+    title: 'Select a Game',
     //header: null
   };
 
@@ -73,51 +73,48 @@ export default class MainSelectGame extends Component<Props> {
     return (
       <ImageBackground
         source={Select_BGP}
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         blurRadius={0.5}
-        resizeMode={"cover"}
-      >
-        <View style={{ flex: 1 }}>
+        resizeMode={'cover'}>
+        <View style={{flex: 1}}>
           <View
             style={{
               flex: 1,
 
-              flexDirection: "row"
-            }}
-          >
+              flexDirection: 'row',
+            }}>
             <ChooseGameButton
               text="Tic Tac Toe"
               image={TTT_LOGO}
-              onPress={() => this.props.navigation.navigate("TicTacToe")}
+              onPress={() => this.props.navigation.navigate('TicTacToe')}
             />
             <ChooseGameButton
               text="Game 24"
-              image={require("../../Images/24.png")}
-              onPress={() => this.props.navigation.navigate("Game24")}
+              image={GAME_24}
+              onPress={() => this.props.navigation.navigate('Game24')}
             />
           </View>
           <View
             style={{
               flex: 1,
 
-              flexDirection: "row"
-            }}
-          >
+              flexDirection: 'row',
+            }}>
             <ChooseGameButton
               text="Game Snake"
-              image={require("../../Images/snake.png")}
-              onPress={() => this.props.navigation.navigate("GameSnake")}
+              image={SNAKE_LOGO}
+              onPress={() => this.props.navigation.navigate('GameSnake')}
             />
 
             <ChooseGameButton
               text=". . ."
-              image={require("../../Images/More.png")}
+              image={MORE_LOGO}
               onPress={() => {}}
               disabled={true}
             />
           </View>
 
-          <View style={{ flex: 1 }}>{/* <Text>view 3</Text> */}</View>
+          <View style={{flex: 1}}>{/* <Text>view 3</Text> */}</View>
         </View>
       </ImageBackground>
     );

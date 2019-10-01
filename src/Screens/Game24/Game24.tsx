@@ -16,6 +16,7 @@ import NumberTile from './NumberTile';
 import ActionTile from './ActionTile';
 import Colors from '../../Constants/Colors';
 import Modal from 'react-native-modal';
+import {GAME_24_BG} from '../../Constants/Images';
 
 const puzzles = require('./puzzles.json');
 
@@ -193,9 +194,7 @@ const Game24 = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        source={require('../../Images/game_24background.png')}
-        style={{flex: 1}}>
+      <ImageBackground source={GAME_24_BG} style={{flex: 1}}>
         <View style={{flex: 1}}>
           <View style={styles.boxRow}>
             <NumberTile
